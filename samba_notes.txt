@@ -1,1 +1,47 @@
-  
+Steps to install and run samba on ubuntu linux
+
+1. sudo apt install samba
+2. sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
+3. sudo systemctl stop smbd
+4. cd /etc/samba ; sudo nano smb.conf
+5. Enter the following statements below into the smb.conf file:
+[global]
+server string = File Server
+workgroup = WORKGROUP  # This should be the name of the workgorup (domain)
+security = user  # This is a user level security
+map to guest = Bad User # This means that the user accont will nnot be required for this connection
+name resolve order = bcast host  # This is the order for searching for host names
+include = /etc/samba/shares.conf  # This includes another file in this config file
+6. sudo nano shares.conf (Enter the following below into the file: )
+[Public Files]
+path = /share/public_files
+force user = smbuser
+force group = smbgroup
+create mask = 0664
+force create mode = 0664 # windows permissions do not work same as linux, this fixes permissions issues.
+directory mask = 0775
+
+[Protected Files]
+path = /share/private_files
+force user = smbuser
+force group = smbgroup
+create mask = 0664
+force create mode = 0664 # windows permissions do not work same as linux, this fixes permissions issues.
+directory mask = 0775
+force directory mode = 0775
+public = yes
+writable = no
+
+7. Let us create the directory that we are to be sharing.
+sudo mkdir -p /share/public_files # This is the parent directory
+sudo mkdir /share/private_files
+8. sudo groupadd --system smbgroup 
+9. sudo useradd --system --no-create-home --group smbgroup -s /bin/false smbuser # this prevents the user from logging in and no home directery
+10. sudo chown -R smbuser:smbgroup /share
+11. sudo chmod -R g+w /share # This gives write access to the 
+group.
+12. sudo systemctl start smbd # to start the service or restart the service if you did not initially stop it.
+13. 
+To Troubleshoot connecting to windows, run the commands below.
+ Test-NetConnection -ComputerName 192.168.244.3 -CommonTCPPort SMB
+ net view \\192.168.244.3 
