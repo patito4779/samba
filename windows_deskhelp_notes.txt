@@ -1,0 +1,22 @@
+# Important commands in windows server
+1. whoami /fqdn  # To see a domain user account information.
+   whoami  # gives the name of a computer.
+2. net user  # List of local users on this computer.
+3. net share # list of shared resources
+4. gpresult /r # gives a list of group policies on an account
+5. net accounts  # see Lockout threshold
+6. net user <name of user> /domain # this gives the last logon info of a user in a domain.
+7. wmic  printer list brief  # get a list of printers connected to a printer.
+8. nslookup <device/computer name>  # get the ip address of a computer or device on the network.
+9. To change a user password, add to a group in AD, right click the name of the user in the active directory users and computers.
+10. To grant a user access to a shared file, printer or folder from a DC, go to File and storage services --> Shares --> The shared path --> right click --> properties --> permissions --> add user/group --> finish. 
+-- goto File Server Resource manager to see the list of shares and enable or disable audio/video if needed.
+11. Microsoft Exchange admin Center --> Mail Flow --> Message Trace # To trace a users mail message error.
+12. C:/Windows/System32/drivers/etc/hosts # Here you can add an ip address/host name which you do not want to be accessed from a local computer.
+13. Disable/Enable pop up blocker in chrome to allow/disallow pop ups(sheets, other stuffs.)
+14. To Export inbox emails to a .pst file
+    -- Goto file --> import/export --> export to a file --> export to .pst --> finish
+15. net user <username> /domain  # gives info of domain groups a user is member of.
+16. net use # returns a list of remote shared drives, printers, folders
+17. net share # returns a list of default shared folder.
+ 
