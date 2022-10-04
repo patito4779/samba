@@ -19,4 +19,5 @@
 15. net user <username> /domain  # gives info of domain groups a user is member of.
 16. net use # returns a list of remote shared drives, printers, folders
 17. net share # returns a list of default shared folder.
- 
+18. services.msc  # open services
+19. firewall.cpl  #open firewall control panel
