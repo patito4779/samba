@@ -21,3 +21,42 @@
 17. net share # returns a list of default shared folder.
 18. services.msc  # open services
 19. firewall.cpl  #open firewall control panel
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Windows Admin Events Logging
+
+wevtutil.exe /?
+wevtutil.exe qe /?
+wevtutil.exe qe Security /c:3 /rd:true /f:text --> Query securtiy events in windows Eventlogs via cmd/powershell.
+
+Event ID - 4625 is a Failed Login
+
+Get-EventLog -LogName Security -Source "Microsoft-Windows-Security-Auditing" -EntryType FailureAudit -After $(Get-Date).AddHours(-1)
+Set $EventAudit to be Equivalent to the command line above.
+foreach($Event in $EventAudit){
+ $EVENT | Select-Object *}           - See whole information of the Failed Logon Event.
+
+$Log=[system.collections.ArrayList]@()
+foreach($Event in $EventAudit){
+ foreach($x in 0..$EVENT.ReplacementStrings.Count){
+	Write-Output "$x - $($event.ReplacementStrings[$x])"
+ 
+ }
+ $UserTried=$Event.ReplacementStrings[5]
+ $Domain=$Event.ReplacementStrings[6]
+ $ClientNameFrom=$event.ReplacementStrings[13]
+ $ClientIPFrom=$event.ReplacementStrings[19]
+ 
+ $LogEntry=New-Object -TypeName PSObject
+ Add-Member -InputObject $LogEntry -MemberType NoteProperty -Name UserTried -Value $UserTried
+ Add-Member -InputObject $LogEntry -MemberType NoteProperty -Name Domain -Value $Domain
+ Add-Member -InputObject $LogEntry -MemberType NoteProperty -Name ClientNameFrom -Value $ClientNameFrom
+ Add-Member -InputObject $LogEntry -MemberType NoteProperty -Name ClientIPFrom -Value $ClientIPFrom
+ 
+ [void]$Log.Add($LogEntry)
+ 
+ } 
+ $Log
+# Command above checks Failed login audit event logs for every last 1 Hour on your machine. You can save the command into a variable 
+  and run it regularly.
+
