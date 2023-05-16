@@ -59,4 +59,32 @@ foreach($Event in $EventAudit){
  $Log
 # Command above checks Failed login audit event logs for every last 1 Hour on your machine. You can save the command into a variable 
   and run it regularly.
+  
+  USEFUL/EFFICIENT WINDOWS RUN COMMANDS:
+Windows + R
+perfmon
+gpedit.msc
+tasklist (options: /v - To see additional info about each process, /svc - info of services on each process, /fi - Filters tasklist output)
+# The tasklist command above allows you to identify processes that are consuming excessive amounts of memory or CPU resources.
+resmon
+sysdm.cpl - Quick acess system properties
+
+USEFUL POWERSHELL COMMANDS
+Get-Help -Name Get-Process (see usage of the Get-Process cmdlet)
+Get-Help -Name Get-* (To find out all commands you can use with the Get verb)
+Get-ExecutionPolicy
+Set-ExecutionPolicy (Restricted, Allsigned, Remote signed and Unrestricted) - To set or change current PS execution policy see example below;
+Set-ExecutionPolicy Unrestricted
+Get-Process ( See a list of all the processes in the system)
+Get-Service ( See a list of all the services running on the system )
+Get-Service | ConvertTo-HTML -Property Name, Status > C:\services.htm (Convert to HTML)
+Get-Service | Export-CSV c:\service.csv
+Get-Service | Select-Object Name, Status | Export-CSV c:\service.csv
+Get-EventLog -Log "Application"
+
+SAS HDD in Linux (setting HBA Card in Linux):
+sudo lsiutil -s 
+lspci -Dmmnn | grep LSI
+lsiutil -s --> sudo lsiutil -p 1 -e --> select 13 (Change SAS IO unit settings) --> Dont change anything --> 
+--> select all ports 8 --> select minimun speed and maximum speed --> Finish Configuration
 
